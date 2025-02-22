@@ -1,6 +1,7 @@
 import { Hono,Context, Next } from "hono";
 import { createBlogInput,updateBlogInput } from "@sachin.78dev/blog-common";
 import { verify } from 'hono/jwt'
+import { trimTrailingSlash } from "hono/trailing-slash";
 export const blogRouter=new Hono<
 {
     Bindings:{
@@ -85,7 +86,18 @@ blogRouter.put('/',async(c)=>{
   blogRouter.get("/bulk",async(c)=>{
     const prisma=c.get('prisma');
     try {
-      const blog=await prisma.post.findMany({});
+      const blog=await prisma.post.findMany({
+        select:{
+          content:true,
+          title:true,
+          id:true,
+          author:{
+            select:{
+              name:true
+            }
+          }
+        }
+      });
       return c.json(blog);
     } catch (error) {
       return c.json({error:"Blogs not found"});
