@@ -1,6 +1,7 @@
 import { Hono } from "hono";
-import { jwt,sign,verify } from 'hono/jwt'
+import {sign,verify} from 'hono/jwt'
 import { signupInput,signinInput } from "@sachin.78dev/blog-common";
+import { Context } from "hono/jsx";
 export const userRouter=new Hono<
 {
     Bindings:{
@@ -31,6 +32,7 @@ userRouter.post('/signup', async(c)=>{
     },
   });
    const token=await sign({id:user.id},c.env.JWT_SECRET);
+
    return c.json(token);
   } catch (error) {
     c.status(411)
@@ -67,5 +69,24 @@ userRouter.post('/signin',async(c)=>{
        return c.text("Invalid user");
       }
       
-}) 
- 
+});
+
+userRouter.get("/",async(c)=>{
+  const prisma=c.get("prisma");
+  const authHeader=c.req.header("Authorization");
+  const user= await verify(`${authHeader}`,c.env.JWT_SECRET);
+  try {
+    const user1=await prisma.user.findUnique({
+      where:{
+        id:user.id
+      }
+    })
+    return c.json({user:user1});
+    // const User1=await prisma.user.find({
+     
+    //     id:user.id,// }
+  } catch (error) {
+    c.status(404);
+    return c.json({messsage:"user not found"});
+  } 
+});

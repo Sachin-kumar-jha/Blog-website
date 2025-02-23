@@ -11,7 +11,7 @@ function FullBLog({blog}:{blog:BlogType}){
     {blog.title}
     </div> 
     <div className='text-slate-500 pt-2 '>
-   Post on 2nd December 2023
+   Post on {`${new Date(`${blog.createdAt}`).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '')}`}
     </div>
     <div className='pt-4'>
         {blog.content}

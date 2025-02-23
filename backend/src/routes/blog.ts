@@ -1,7 +1,7 @@
 import { Hono,Context, Next } from "hono";
 import { createBlogInput,updateBlogInput } from "@sachin.78dev/blog-common";
 import { verify } from 'hono/jwt'
-import { trimTrailingSlash } from "hono/trailing-slash";
+
 export const blogRouter=new Hono<
 {
     Bindings:{
@@ -81,6 +81,7 @@ blogRouter.put('/',async(c)=>{
     })
   })
 
+  
 
   //pagenation
   blogRouter.get("/bulk",async(c)=>{
@@ -95,7 +96,9 @@ blogRouter.put('/',async(c)=>{
             select:{
               name:true
             }
-          }
+          },
+          createdAt:true,
+          updatedAt:true,
         }
       });
       return c.json(blog);
@@ -104,6 +107,7 @@ blogRouter.put('/',async(c)=>{
     }
   });
 
+  
    
   blogRouter.get('/:id',async(c)=>{
     const prisma=c.get('prisma');
@@ -121,7 +125,8 @@ blogRouter.put('/',async(c)=>{
             select:{
               name:true,
             }
-          }
+          },
+          createdAt:true,
         }
       });
       if(!blog){
@@ -134,4 +139,6 @@ blogRouter.put('/',async(c)=>{
       c.status(401);
       return c.json({error:"Blog doesn't exist"});
     }
-  })
+  });
+
+ 

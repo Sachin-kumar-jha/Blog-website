@@ -1,5 +1,6 @@
-function BlogCardSkeleton() {
+function BlogCardSkeleton({className}:{className:string}) {
     return (
+      <div className={className}>
       <div className="p-4 border-b border-slate-200 pb-4 w-screen max-w-screen-md animate-pulse">
         <div className="flex items-center">
           <div className="w-6 h-6 bg-gray-300 rounded-full"></div>
@@ -13,6 +14,7 @@ function BlogCardSkeleton() {
         <div className="h-4 bg-gray-300 rounded w-5/6 mt-2"></div>
   
         <div className="h-4 bg-gray-300 rounded w-1/4 mt-4"></div>
+      </div>
       </div>
     );
   }

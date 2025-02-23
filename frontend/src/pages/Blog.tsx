@@ -8,7 +8,7 @@ function Blog() {
     id:id || ""
   });
   return <div>
-    {loading  ? <BlogCardSkeleton/>:
+    {loading  ? <BlogCardSkeleton className="flex justify-center mt-24"/>:
     <FullBLog blog={blog}/>
   }
   </div>

@@ -4,6 +4,8 @@ export interface BlogType{
     "id":number;
     "author":{
         "name":string;
-    }
+    };
+    "createdAt":string;
+    "updatedAt":string;
   
   }

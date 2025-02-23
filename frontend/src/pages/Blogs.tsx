@@ -10,13 +10,13 @@ function Blog() {
       <div className="flex justify-center">
     <div>
       { loading
-  ? Array(3).fill(0).map((_, index) => <BlogCardSkeleton key={index}/>): blogs.length > 0 ? (
+  ? Array(3).fill(0).map((_, index) => <BlogCardSkeleton className='flex' key={index}/>): blogs.length > 0 ? (
     blogs.map(blog => (
       <BlogCard
         authorName={blog.author?.name || "Anonymous"}
         title={blog.title}
         content={blog.content}
-        publishDate={"21 Feb 2025"}
+        publishDate={`${new Date(`${blog.createdAt}`).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '')}`}
         id={blog.id}
         key={blog.id}
       />
