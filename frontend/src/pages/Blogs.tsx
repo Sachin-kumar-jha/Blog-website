@@ -1,5 +1,5 @@
 
-import BlogCard from '../components/BlogCard'
+import BlogCard from '../components/BlogCard/BlogCard';
 import { useBlogs } from '../hooks'
 import BlogCardSkeleton from '../components/Skeleton/BlogCardSkelton';
 

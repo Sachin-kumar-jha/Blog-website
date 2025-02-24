@@ -1,5 +1,5 @@
 import { Outlet } from 'react-router-dom';
-import Appbar from '../components/Appbar/Appbar';
+import Appbar from '../Appbar/Appbar';
 
 const MainLayout: React.FC = () => {
   return (

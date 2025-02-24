@@ -2,11 +2,11 @@
 import { SignupInput } from '@sachin.78dev/blog-common';
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import LabelledInput from './LabelledInput/LabelledInput';
+import LabelledInput from '../LabelledInput/LabelledInput';
 import axios from 'axios';
-import { BACKEND_URL } from '../config';
-import Spinner from './Spinner/Spinner';
-
+import { BACKEND_URL } from '../../config';
+import Spinner from '../Spinner/Spinner';
+import { toast } from 'react-toastify';
 function Auth({ type }: { type: 'signup' | 'signin' }) {
   const [loading,setLoading]=useState(false);
   const navigate = useNavigate();
@@ -22,7 +22,9 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
       username: usernameRef.current?.value || '',
       password: passwordRef.current?.value || '',
     };
-
+if(!postInput){
+  toast.warning("please fill the form!");
+}
     try {
       const response = await axios.post(
         `${BACKEND_URL}/api/v1/user/${type === 'signup' ? 'signup' : 'signin'}`,
@@ -30,13 +32,15 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
       );
       const jwt = response.data;
       localStorage.setItem('token', jwt);
+      toast.success(`${type} successfully!`);
       navigate('/blogs');
-
       if (nameRef.current) nameRef.current.value = '';
       if (usernameRef.current) usernameRef.current.value = '';
       if (passwordRef.current) passwordRef.current.value = '';
-    } catch (err) {
-      alert('Error: ' + err);
+    } catch{
+      toast.warning("please fill the form!");
+    }finally{
+      setLoading(false);
     }
   }
 
@@ -58,7 +62,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
               <LabelledInput
                 ref={nameRef}
                 label="Name"
-                placeholder="Sachin Kumar Jha"
+                placeholder="Enter your name"
                 onChange={() => {}}
               />
             )}

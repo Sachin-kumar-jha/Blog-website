@@ -79,6 +79,9 @@ userRouter.get("/",async(c)=>{
     const user1=await prisma.user.findUnique({
       where:{
         id:user.id
+      },
+      select:{
+        name:true,
       }
     })
     return c.json({user:user1});
@@ -90,3 +93,5 @@ userRouter.get("/",async(c)=>{
     return c.json({messsage:"user not found"});
   } 
 });
+
+

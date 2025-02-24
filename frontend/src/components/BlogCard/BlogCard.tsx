@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
-import  Avatar from "./Avatar/Avatar";
-import Circle from "./Circle/Circle";
+import  Avatar from "../Avatar/Avatar";
+import Circle from "../Circle/Circle";
  interface BlogCardProps{
     authorName:string;
     title:string;

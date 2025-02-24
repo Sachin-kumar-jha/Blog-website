@@ -1,6 +1,6 @@
 import { useBlog } from "../hooks"
 import { useParams } from "react-router-dom"
-import FullBLog from "../components/FullBLog"
+import FullBLog from "../components/FullBlogCard/FullBLog";
 import BlogCardSkeleton from "../components/Skeleton/BlogCardSkelton";
 function Blog() {
   const {id}=useParams();

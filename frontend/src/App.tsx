@@ -4,24 +4,31 @@ import Blogs from "./pages/Blogs"
 import Blog from "./pages/Blog"
 import { BrowserRouter,Route,Routes } from "react-router-dom"
 import Publish from "./pages/Publish"
-import MainLayout from "./Mainlayout/MainLayout"
+import MainLayout from "./components/Mainlayout/MainLayout"
+import Profile from "./components/Profile/Profile"
+import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
+import { ToastContainer } from "react-toastify"
+import 'react-toastify/dist/ReactToastify.css';
 function App() {
   return (
     <>
+    <div>
       <BrowserRouter>
       <Routes>
-        <Route path="/signup" element={<Signup/>}></Route>
-        <Route path="/signin" element={<Signin/>}>
+        {/* Public Routes */}
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/signin" element={<Signin />} />
+        {/* Protected Routes */}
+        <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
+          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/blog/:id" element={<Blog />} />
+          <Route path="/publish" element={<Publish />} />
+          <Route path="/user" element={<Profile />} />
         </Route>
-        <Route path="" element={<MainLayout/>}>
-        <Route path="/blogs" element={<Blogs/>}></Route>
-        <Route path="/blog/:id" element={<Blog/>}></Route>
-        <Route path="/publish" element={<Publish/>}></Route>
-        </Route>
-        
-        
       </Routes>
       </BrowserRouter>
+      <ToastContainer position="top-right" autoClose={3000} />
+      </div>
     </>
   )
 }
