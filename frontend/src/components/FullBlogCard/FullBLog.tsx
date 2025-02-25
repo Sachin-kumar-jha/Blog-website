@@ -4,7 +4,6 @@ import Avatar from '../Avatar/Avatar';
 import DeleteButton from '../deleteButton/DeleteButton';
 import { useParams,useNavigate } from 'react-router-dom';
 import { useState } from 'react';
-import { BACKEND_URL } from '../../config';
 import {toast} from "react-toastify"
 import axios from 'axios';
 const defaultBlog: BlogType = {
@@ -28,7 +27,7 @@ export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
   const sendDeleteRequest = async()=>{
     try {
       setLoading(true);
-      const response= await axios.delete(`${BACKEND_URL}/api/v1/blog/${id}`,{
+      const response= await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`,{
           headers:{
               Authorization:localStorage.getItem('token')
          }

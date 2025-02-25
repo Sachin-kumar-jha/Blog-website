@@ -1,7 +1,6 @@
 import { useState, useRef } from "react";
 import TextArea from "../components/TextArea/TextArea";
 import axios from "axios";
-import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { CreateBlogInput } from "@sachin.78dev/blog-common";
@@ -25,7 +24,7 @@ function Publish() {
         toast.warning("please enter data !");
         return;
       }
-      const response = await axios.post(`${BACKEND_URL}/api/v1/blog`,
+      const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog`,
         postData, {
         headers: {
           Authorization: localStorage.getItem("token")

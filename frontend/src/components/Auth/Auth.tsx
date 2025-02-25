@@ -3,7 +3,6 @@ import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import LabelledInput from '../LabelledInput/LabelledInput';
 import axios from 'axios';
-import { BACKEND_URL } from '../../config';
 import Spinner from '../Spinner/Spinner';
 import { toast } from 'react-toastify';
 function Auth({ type }: { type: 'signup' | 'signin' }) {
@@ -40,7 +39,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
       }
 
       const response = await axios.post(
-        `${BACKEND_URL}/api/v1/user/${type === 'signup' ? 'signup' : 'signin'}`,postInput);
+        `${import.meta.env.VITE_BACKEND_URL}/api/v1/user/${type === 'signup' ? 'signup' : 'signin'}`,postInput);
       const jwt =await response.data;
       localStorage.setItem('token', jwt);
       toast.success(`${type} successfully!`);
