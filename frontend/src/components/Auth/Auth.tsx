@@ -44,7 +44,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
       const jwt =await response.data;
       localStorage.setItem('token', jwt);
       toast.success(`${type} successfully!`);
-      navigate('/blogs');
+      navigate('/');
 
       if (nameRef.current) nameRef.current.value = '';
       if (usernameRef.current) usernameRef.current.value = '';

@@ -1,6 +1,6 @@
 import Signup from "./pages/Signup"
 import Signin from "./pages/Signin"
-import Blogs from "./pages/Blogs"
+import Blogs from './pages/Blogs';
 import Blog from "./pages/Blog"
 import { BrowserRouter,Route,Routes } from "react-router-dom"
 import Publish from "./pages/Publish"
@@ -21,7 +21,7 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         {/* Protected Routes */}
         <Route path="/" element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
-          <Route path="/blogs" element={<Blogs />} />
+          <Route path="/" element={<Blogs/>}/>
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/publish" element={<Publish />} />
           <Route path="/user" element={<Profile />}/>
