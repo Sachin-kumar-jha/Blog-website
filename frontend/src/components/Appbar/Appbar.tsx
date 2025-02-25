@@ -18,7 +18,7 @@ const handleLogout = () => {
 };
   return (
     <div className=' border-b flex flex-row items-center justify-between px-8 py-1'>
-      <Link to={"/blogs"}>
+      <Link to={"/"}>
         <div className='flex text-xl text-extrabold flex-col justify-center  curson-pointer'>Medium</div>
         </Link>
            <div className='flex justify-center gap-5'>
