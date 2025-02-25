@@ -34,7 +34,7 @@ export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
       });
       const data=await response.data;
       toast.warn(`${data.message}`);
-      navigate("/blogs");
+      navigate("/");
       setLoading(false) 
   } catch{
       toast.warn("Something went wrong!");
