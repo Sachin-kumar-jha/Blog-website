@@ -124,14 +124,14 @@ export const getBlogByid=async (c:Context) => {
 
 export const deleteBlog=async (c:Context) => {
     const prisma = c.get("prisma");
+    const id = c.req.param("id");
     const authHeader = c.req.header("Authorization");
     if (!authHeader) {
       c.status(401);
       return c.json({ message: "Authorization header missing" });
     }
   
-    const user = await verify(authHeader, c.env.JWT_SECRET);
-    const id = c.req.param("id");
+    const user = await verify(`${authHeader}`, c.env.JWT_SECRET);
   
     try {
       const blog = await prisma.post.findUnique({
@@ -145,16 +145,14 @@ export const deleteBlog=async (c:Context) => {
       }
   
       if (blog.authorId !== user.id) {
-        c.status(403);
-        return c.json({ message: "You are not the author of the post" });
+        return c.json({ message: "You are not the author!" });
       }
   
-      const deletedPost = await prisma.post.delete({
+       await prisma.post.delete({
         where: { id: id },
       });
-  
       c.status(203);
-      return c.json({ deletePost: deletedPost });
+      return c.json({ message:"Post deleted successfully!" });
   
     } catch (error) {
       console.error(error);

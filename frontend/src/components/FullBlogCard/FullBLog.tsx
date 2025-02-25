@@ -1,7 +1,12 @@
 
 import { BlogType } from '../../type/Blog';
 import Avatar from '../Avatar/Avatar';
-
+import DeleteButton from '../deleteButton/DeleteButton';
+import { useParams,useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import { BACKEND_URL } from '../../config';
+import {toast} from "react-toastify"
+import axios from 'axios';
 const defaultBlog: BlogType = {
   title: "Untitled Blog",
   content: "No content available.",
@@ -14,6 +19,32 @@ const defaultBlog: BlogType = {
 };
 
 export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
+
+  const {id}=useParams();
+  const[loading,setLoading]=useState(false);
+  const navigate=useNavigate();
+  
+  const sendDeleteRequest = async()=>{
+
+    try {
+      setLoading(true);
+      const response= await axios.delete(`${BACKEND_URL}/api/v1/blog/${id}`,{
+          headers:{
+              Authorization:localStorage.getItem('token')
+         }
+      });
+      const data=await response.data;
+      toast.success(`${data.message}`);
+      navigate("/blogs");
+      setLoading(false) 
+  } catch{
+      toast.warn("Something went wrong!");
+    }finally{
+      setLoading(false);
+    } 
+}
+  
+
   return (
     <div>
       <div className='grid grid-rows-12 lg:grid-cols-12 w-full lg:max-w-screen-xl pt-20 px-8 lg:px-10'>
@@ -21,8 +52,14 @@ export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
           <div className='text-4xl lg:text-5xl font-bold lg:font-extrabold'>
             {blog.title}
           </div>
-          <div className='text-slate-500 pt-2'>
+          <div className='flex gap-5'>
+          <div className='text-slate-500 pt-2 flex flex-col justify-center'>
             Post on {new Date(blog.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '')}
+          </div>
+          <div className='flex flex-col justify-center mt-3'>
+            {loading ?<div className="w-2 h-2 border-t-2 border-blue-400 border-solid rounded-full animate-spin"></div>:<DeleteButton onClick={sendDeleteRequest}/>
+            }
+          </div>
           </div>
           <div className='pt-4 text-xl'>
             {blog.content}

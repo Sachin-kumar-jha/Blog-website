@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { BACKEND_URL } from "../config";
 import { BlogType } from "../type/Blog";
+import { toast } from "react-toastify";
 export const useBlogs=()=>{
      const [loading,setLoading]=useState(true);
      const [blogs,setBlogs]=useState<BlogType[]>([]);
@@ -43,4 +44,34 @@ useEffect(()=>{
 return{
    loading,blog
 }
-}
+};
+
+
+
+export const useUser=()=>{
+    const[loading,setLoading]=useState(true);
+    const [name,setName]=useState("");
+    const[id,setId]=useState('');
+    useEffect(()=>{
+        try {
+            axios.get(`${BACKEND_URL}/api/v1/user`,{
+                headers:{
+                  Authorization:localStorage.getItem("token")
+                }
+              })
+              .then(res=> {
+                  setName(res.data.user.name);
+                  setLoading(false);
+                  setId(res.data.user.id);
+              
+              });
+            
+        }catch{
+            toast.warning("Check your connection!");
+        }
+      
+    },[]);
+    return{
+        name,id,loading
+    }
+};
