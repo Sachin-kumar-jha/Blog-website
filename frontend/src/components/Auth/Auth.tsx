@@ -1,4 +1,3 @@
-
 import { SignupInput } from '@sachin.78dev/blog-common';
 import { useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -15,30 +14,45 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
   const nameRef = useRef<HTMLInputElement>(null);
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const descRef = useRef<HTMLInputElement>(null);
   async function sendRequest() {
     setLoading(true);
-    const postInput: SignupInput = {
+    const postInput:SignupInput={
       name: nameRef.current?.value || '',
-      username: usernameRef.current?.value || '',
-      password: passwordRef.current?.value || '',
-    };
-if(!postInput){
-  toast.warning("please fill the form!");
-}
+      desc:descRef.current?.value || '',
+      username:usernameRef.current?.value || '',
+      password:passwordRef.current?.value || '',
+      
+    }
     try {
+      if (type === 'signup') {
+        if (!postInput.name || !postInput.desc || !postInput.username || !postInput.password) {
+          toast.warning("Please fill all the fields!");
+          setLoading(false);
+          return;
+        }
+      } else { // signin
+        if (!postInput.username || !postInput.password) {
+          toast.warning("Please enter email and password!");
+          setLoading(false);
+          return;
+        }
+      }
+
       const response = await axios.post(
-        `${BACKEND_URL}/api/v1/user/${type === 'signup' ? 'signup' : 'signin'}`,
-        postInput
-      );
-      const jwt = response.data;
+        `${BACKEND_URL}/api/v1/user/${type === 'signup' ? 'signup' : 'signin'}`,postInput);
+      const jwt =await response.data;
       localStorage.setItem('token', jwt);
       toast.success(`${type} successfully!`);
       navigate('/blogs');
+
       if (nameRef.current) nameRef.current.value = '';
       if (usernameRef.current) usernameRef.current.value = '';
+      if (descRef.current) descRef.current.value = '';
       if (passwordRef.current) passwordRef.current.value = '';
-    } catch{
-      toast.warning("please fill the form!");
+    } catch(e){
+      console.log(e);
+      toast.warning("User doesn't exist!");
     }finally{
       setLoading(false);
     }
@@ -59,21 +73,32 @@ if(!postInput){
           </div>
           <div className="pt-4">
             {type === 'signup' && (
+              <>
               <LabelledInput
                 ref={nameRef}
-                label="Name"
+                label="name"
                 placeholder="Enter your name"
                 onChange={() => {}}
+                type='text'
               />
+              <LabelledInput
+              ref={descRef}
+              label="description"
+              type="text"
+              placeholder="Enter about you"
+              onChange={() => {}}
+            />
+            </>
             )}
             
             <LabelledInput
               ref={usernameRef}
-              label="Username"
+              label="username"
               type="email"
               placeholder="Enter your email"
               onChange={() => {}}
             />
+
             <LabelledInput
               ref={passwordRef}
               label="Password"
@@ -84,8 +109,8 @@ if(!postInput){
             <button
               onClick={sendRequest}
               type="button"
-              disabled={loading}
-              className={`text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 mt-4 ${
+              
+              className={`text-white bg-blue-500 hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-400 font-medium rounded-lg text-sm w-full px-5 py-2.5 me-2 mb-2  mt-4 ${
                 loading ? 'opacity-50 cursor-not-allowed' : ''
               }`}
             >

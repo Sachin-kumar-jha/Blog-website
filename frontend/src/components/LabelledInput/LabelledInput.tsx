@@ -20,7 +20,6 @@ const LabelledInput = forwardRef<HTMLInputElement, LabelledInputType>(
           placeholder={placeholder}
           onChange={onChange}
           type={type || 'text'}
-          required
         />
       </div>
     );

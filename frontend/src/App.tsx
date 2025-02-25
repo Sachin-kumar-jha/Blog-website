@@ -7,6 +7,7 @@ import Publish from "./pages/Publish"
 import MainLayout from "./components/Mainlayout/MainLayout"
 import Profile from "./components/Profile/Profile"
 import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute"
+import Working from "./components/Working/Working"
 import { ToastContainer } from "react-toastify"
 import 'react-toastify/dist/ReactToastify.css';
 function App() {
@@ -23,7 +24,8 @@ function App() {
           <Route path="/blogs" element={<Blogs />} />
           <Route path="/blog/:id" element={<Blog />} />
           <Route path="/publish" element={<Publish />} />
-          <Route path="/user" element={<Profile />} />
+          <Route path="/user" element={<Profile />}/>
+          <Route path="/user/edit" element={<Working/>}/>
         </Route>
       </Routes>
       </BrowserRouter>

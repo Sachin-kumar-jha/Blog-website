@@ -3,9 +3,9 @@ import TextArea from "../components/TextArea/TextArea";
 import axios from "axios";
 import { BACKEND_URL } from "../config";
 import { useNavigate } from "react-router-dom";
-import ButtonSpinner from "../components/Spinner/ButtonSpinner";
 import { toast } from "react-toastify";
 import { CreateBlogInput } from "@sachin.78dev/blog-common";
+import ButtonSpinner from "../components/Spinner/ButtonSpinner";
 
 function Publish() {
 
@@ -17,14 +17,14 @@ function Publish() {
   const sendPost = async () => {
     setLoading(true);
     const postData:CreateBlogInput = {
-          title: titleRef.current?.value || '',
-          content: contentRef.current?.value || '',
+          title: `${titleRef.current?.value}`,
+          content: `${contentRef.current?.value}`,
         };
-    if (!postData) {
-      toast.warning("please enter data");
-      return;
-    }
     try {
+      if (postData.title == '' || postData.content == '' ){
+        toast.warning("please enter data !");
+        return;
+      }
       const response = await axios.post(`${BACKEND_URL}/api/v1/blog`,
         postData, {
         headers: {
@@ -54,9 +54,9 @@ function Publish() {
           <button
             onClick={sendPost}
             type="submit"
-            className="inline-flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-center text-green-800 border-b bg-transparent shadow-md rounded-lg focus:ring-blue-200 hover:bg-slate-200"
+            className="inline-flex items-center px-3 py-2.5 text-sm font-medium rounded-lg text-center text-green-800 border-b bg-transparent shadow-md rounded-lg focus:ring-blue-200"
           >
-            {loading ? <ButtonSpinner /> : "Publish post"}
+            {loading ? <ButtonSpinner/> :"Publish post"}
           </button>
         </div>
       </div>

@@ -29,6 +29,7 @@ userRouter.post('/signup', async(c)=>{
       email:body.username,
       password:body.password,
       name:body.name,
+      desc:body.desc,
     },
   });
    const token=await sign({id:user.id},c.env.JWT_SECRET);
@@ -82,6 +83,7 @@ userRouter.get("/",async(c)=>{
       },
       select:{
         name:true,
+        desc:true,
       }
     })
     return c.json({user:user1});

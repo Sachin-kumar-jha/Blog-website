@@ -6,7 +6,7 @@ function PublishButton({className}:{className:string}) {
 <button type="button" 
 className={`text-white bg-green-700 hover:bg-green-800 
 focus:outline-none focus:ring-1 focus:ring-green-300 font-medium rounded-full 
-text-sm px-5 py-1.5 text-center me-2 mb-2 ${className}`}>
+text-sm px-5 py-1.5 text-center  mb-2 ${className}`}>
   Publish
   </button>
   </Link>

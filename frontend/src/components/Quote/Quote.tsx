@@ -1,5 +1,3 @@
-import React from 'react'
-
 function Quote() {
   return (
     <div className="bg-[#F8FAFC] h-screen flex  flex-col justify-center p-10">

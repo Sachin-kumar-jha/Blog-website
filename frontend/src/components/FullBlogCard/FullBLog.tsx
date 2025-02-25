@@ -13,6 +13,7 @@ const defaultBlog: BlogType = {
   id: 0,
   author: {
     name: "Anonymous",
+    desc:""
   },
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
@@ -25,7 +26,6 @@ export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
   const navigate=useNavigate();
   
   const sendDeleteRequest = async()=>{
-
     try {
       setLoading(true);
       const response= await axios.delete(`${BACKEND_URL}/api/v1/blog/${id}`,{
@@ -34,7 +34,7 @@ export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
          }
       });
       const data=await response.data;
-      toast.success(`${data.message}`);
+      toast.warn(`${data.message}`);
       navigate("/blogs");
       setLoading(false) 
   } catch{
@@ -57,15 +57,15 @@ export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
             Post on {new Date(blog.createdAt).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }).replace(',', '')}
           </div>
           <div className='flex flex-col justify-center mt-3'>
-            {loading ?<div className="w-2 h-2 border-t-2 border-blue-400 border-solid rounded-full animate-spin"></div>:<DeleteButton onClick={sendDeleteRequest}/>
+            {loading ?<div className="w-2 h-3 border-t-2 border-blue-400 border-solid rounded-full animate-spin"></div>:<DeleteButton onClick={sendDeleteRequest}/>
             }
           </div>
           </div>
-          <div className='pt-4 text-xl'>
+          <div className='pt-4 text-lg tracking-widest '>
             {blog.content}
           </div>
         </div>
-        <div className="row-span-4 lg:col-span-4">
+        <div className="row-span-4 lg:col-span-4 lg:border-l p-3">
           <div className='text-slate-600 text-lg'>
             Author
           </div>
@@ -77,8 +77,8 @@ export default function FullBlog({ blog = defaultBlog }: { blog?: BlogType }) {
               <div className='text-xl font-bold'>
                 {blog.author.name.toUpperCase() || "Anonymous"}
               </div>
-              <div className='pt-2 text-slate-500'>
-                Lorem, ipsum dolor sit amet consectetur adipisicing elit. Natus placeat.
+              <div className='pt-2 text-md tracking-wider text-slate-500 font-bold'>
+                {blog.author.desc}
               </div>
             </div>
           </div>

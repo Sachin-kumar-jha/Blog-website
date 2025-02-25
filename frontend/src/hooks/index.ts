@@ -59,7 +59,7 @@ export const useUser=()=>{
                   Authorization:localStorage.getItem("token")
                 }
               })
-              .then(res=> {
+              .then(res=>{
                   setName(res.data.user.name);
                   setLoading(false);
                   setId(res.data.user.id);

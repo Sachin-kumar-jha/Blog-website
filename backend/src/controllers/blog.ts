@@ -104,6 +104,7 @@ export const getBlogByid=async (c:Context) => {
           author: {
             select: {
               name: true,
+              desc:true,
             }
           },
           authorId: true,

@@ -2,7 +2,6 @@ import Avatar from "../Avatar/Avatar"
 import { Link, } from "react-router-dom"
 import ProfileSkeleton from "../Skeleton/ProfileSkeleton";
 import { useUser } from "../../hooks";
-import { toast } from "react-toastify";
 import { useState, useEffect } from "react";
 
 
