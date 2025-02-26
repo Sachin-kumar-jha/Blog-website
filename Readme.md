@@ -42,7 +42,13 @@ DATABASE_URL="your_postgres_connection_url"
 JWT_SECRET="your_jwt_secret"
 ```
 
-3. Run database migrations:
+3.Add in your wrangler.jsonc file:
+```plaintext
+DATABASE_URL="your_postgres_connection-pool_url"
+JWT_SECRET="your_jwt_secret"
+```
+
+4. Run database migrations:
 
 ```bash
 npx prisma migrate dev
