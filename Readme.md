@@ -42,7 +42,7 @@ DATABASE_URL="your_postgres_connection_url"
 JWT_SECRET="your_jwt_secret"
 ```
 
-3.Add in your wrangler.jsonc file:
+3. Add in your wrangler.jsonc file:
 ```plaintext
 DATABASE_URL="your_postgres_connection-pool_url"
 JWT_SECRET="your_jwt_secret"
