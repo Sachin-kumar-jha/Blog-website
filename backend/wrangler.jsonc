@@ -5,7 +5,8 @@
   "compatibility_date": "2025-02-20",
   "vars": {
     "DATABASE_URL":"",
-    "JWT_SECRET":""
+    "JWT_SECRET":"sachinjhaname",
+    "FRONTEND_URL":""
   }
   // "compatibility_flags": [
   //   "nodejs_compat"

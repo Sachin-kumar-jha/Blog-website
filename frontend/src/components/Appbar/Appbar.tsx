@@ -2,19 +2,34 @@
 import Avatar from '../Avatar/Avatar'
 import PublishButton from '../Publish/PublishButton'
 import { Link } from 'react-router-dom'
-
 import { useNavigate } from 'react-router-dom';
 import {toast} from "react-toastify";
 import { useUser } from '../../hooks'
+import { useDispatch } from 'react-redux';
+import { logout } from '../../store/slice/authSlice';
+import axios from 'axios';
+
 
 function Appbar(){
 const {loading,name}=useUser();
-const navigate=useNavigate();
+const dispatch =useDispatch();
+  const navigate =useNavigate();
 
-const handleLogout = () => {
-  localStorage.removeItem('token');
-  toast.success('Logged out successfully!');
-  navigate("/signin");
+const handleLogout = async () => {
+  try {
+    // Clear the backend cookie
+    await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/logout`, {}, {
+      withCredentials: true,
+    });
+
+    // Update Redux state
+    dispatch(logout());
+    toast.success('Logged out successfully!');
+    navigate('/signin');
+  } catch (error) {
+    console.error('Logout failed:', error);
+    toast.error('Failed to log out. Please try again.');
+  }
 };
   return (
     <div className=' border-b flex flex-row items-center justify-between px-8 py-1'>
@@ -38,9 +53,6 @@ const handleLogout = () => {
             </div>
           
       </div>
-           
-           
-          
         </div>
         
   )

@@ -1,49 +1,85 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
-import { BlogType } from "../type/Blog";
+
 import { toast } from "react-toastify";
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState, AppDispatch } from '../store';
+import { setBlogs,setLoading } from '../store/slice/blogSlice';
+//import { fetchBlogById } from "../store/thunks/blogThunnk";
+
 export const useBlogs=()=>{
-     const [loading,setLoading]=useState(true);
-     const [blogs,setBlogs]=useState<BlogType[]>([]);
-     const[length,setLength]=useState(0);
-useEffect(()=>{
-   axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk`,{
-    headers:{
-        Authorization:localStorage.getItem("token"),
-    }
-   }
-   )
-   .then(res => {
-    setBlogs(res.data);
-    setLength(res.data);
-    setLoading(false);
-   })
-},[]);
+     //const [loading,setLoading]=useState(true);
+//      const [blogs,setBlogs]=useState<BlogType[]>([]);
+//      const[length,setLength]=useState(0);
+// useEffect(()=>{
+//    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk`,{
+//     headers:{
+//         Authorization:localStorage.getItem("token"),
+//     }
+//    }
+//    )
+//    .then(res => {
+//     setBlogs(res.data);
+//     setLength(res.data);
+//     setLoading(false);
+//    })
+// },[]);
+ const {blogs,loading} = useSelector((state: RootState) => state.blog);
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(()=>{
+    dispatch(setLoading(true));
+    axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk`,{
+     withCredentials:true,
+    })
+    .then(res => {
+     dispatch(setBlogs(res.data));
+    //  setLength(res.data);
+     dispatch(setLoading(false));
+    })
+ },[dispatch]);
 return{
-    loading,blogs,length
+    loading,blogs
 }
 }
 
 
-export const useBlog=({id}:{id:string})=>{
-    const [loading,setLoading]=useState(true);
-    const [blog,setBlog]=useState<BlogType>();
-useEffect(()=>{
-  axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`,{
-   headers:{
-       Authorization:localStorage.getItem("token"),
-   }
-  }
-  )
-  .then(res =>{
-   setBlog(res.data.blog);
-   setLoading(false);
-  })
-},[id]);
-return{
-   loading,blog
-}
-};
+
+
+// export const useBlog=({id}:{id:string})=>{
+
+// //     const [loading,setLoading]=useState(true);
+// //     const [blog,setBlog]=useState<BlogType>();
+// // useEffect(()=>{
+// //   axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`,{
+// //    headers:{
+// //        Authorization:localStorage.getItem("token"),
+// //    }
+// //   }
+// //   )
+// //   .then(res =>{
+// //    setBlog(res.data.blog);
+// //    setLoading(false);
+// //   })
+// // },[id]);
+// const dispatch = useDispatch<AppDispatch>();
+
+//   const { currentBlog, loading } = useSelector((state: RootState) => state.blog);
+
+//   useEffect(() => {
+//     if (id) {
+//       dispatch(fetchBlogById(id));
+//     }
+//   }, [id, dispatch]);
+//   console.log(currentBlog);
+// return{
+//    loading,currentBlog
+// }
+// };
+
+
+
+
+
 
 
 
@@ -54,9 +90,7 @@ export const useUser=()=>{
     useEffect(()=>{
         try {
             axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user`,{
-                headers:{
-                  Authorization:localStorage.getItem("token")
-                }
+                withCredentials:true
               })
               .then(res=>{
                   setName(res.data.user.name);

@@ -1,26 +1,7 @@
-import {Context,Next} from "hono";
+import {Context} from "hono";
 import { createBlogInput,updateBlogInput } from "@sachin.78dev/blog-common";
-import { verify } from "hono/jwt";
 
-export const forAuthentication=async (c: Context, next: Next) => {
-  const authHeader = c.req.header("Authorization");
-  try {
-    const user = await verify(`${authHeader}`, c.env.JWT_SECRET);
-    if (user) {
-      c.set("userId", user.id);
-      await next();
-    } else {
-      c.status(403);
-      return c.json({
-        message: "you are not logged in"
-      })
-    }
-  } catch (error) {
-    c.status(403);
-    return c.json({ error: "Something is going wrong" });
-  }
 
-};
 export const createBlog=async (c:Context) => {
   const prisma = c.get('prisma');
   const authorId = c.get("userId");
@@ -126,14 +107,7 @@ export const getBlogByid=async (c:Context) => {
 export const deleteBlog=async (c:Context) => {
     const prisma = c.get("prisma");
     const id = c.req.param("id");
-    const authHeader = c.req.header("Authorization");
-    if (!authHeader) {
-      c.status(401);
-      return c.json({ message: "Authorization header missing" });
-    }
-  
-    const user = await verify(`${authHeader}`, c.env.JWT_SECRET);
-  
+    const userId = await c.get('userId');
     try {
       const blog = await prisma.post.findUnique({
         where: { id: id },
@@ -145,7 +119,7 @@ export const deleteBlog=async (c:Context) => {
         return c.json({ message: "Blog not found" });
       }
   
-      if (blog.authorId !== user.id) {
+      if (blog.authorId !== userId) {
         return c.json({ message: "You are not the author!" });
       }
   

@@ -26,9 +26,7 @@ function Publish() {
       }
       const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog`,
         postData, {
-        headers: {
-          Authorization: localStorage.getItem("token")
-        }
+        withCredentials:true
       });
       navigate(`/blog/${response.data.id}`);
     } catch{

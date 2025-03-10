@@ -1,7 +1,7 @@
 export interface BlogType{
     "title":string;
     "content":string;
-    "id":number;
+    "id":string;
     "author":{
         "name":string;
         "desc":string;

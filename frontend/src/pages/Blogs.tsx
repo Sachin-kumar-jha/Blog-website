@@ -1,11 +1,9 @@
-
 import BlogCard from '../components/BlogCard/BlogCard';
-import { useBlogs } from '../hooks'
 import BlogCardSkeleton from '../components/Skeleton/BlogCardSkelton';
-
-function Blog() {
-  const{loading,blogs}=useBlogs();
-
+import { useBlogs } from '../hooks';
+function Blog(){
+const{loading,blogs}=useBlogs();
+  console.log(blogs);
   return <div>
       <div className="flex justify-center">
     <div>
