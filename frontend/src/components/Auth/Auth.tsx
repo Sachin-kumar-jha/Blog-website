@@ -1,4 +1,4 @@
-import { SignupInput } from '@sachin.78dev/blog-common';
+import { SigninInput, SignupInput } from '@sachin.78dev/blog-common';
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,8 +7,9 @@ import { RootState } from '../../store';
 import LabelledInput from '../LabelledInput/LabelledInput';
 import Spinner from '../Spinner/Spinner';
 import { toast } from 'react-toastify';
+import { AppDispatch } from '../../store';
 function Auth({ type }: { type: 'signup' | 'signin' }) {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const { loading } = useSelector((state: RootState) => state.auth);
 
@@ -18,39 +19,80 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
   const passwordRef = useRef<HTMLInputElement>(null);
   const descRef = useRef<HTMLInputElement>(null);
 
+  // const handleSubmit = async () => {
+  //   const postInput: SignupInput = {
+  //     name: nameRef.current?.value || '',
+  //     desc: descRef.current?.value || '',
+  //     username: usernameRef.current?.value || '',
+  //     password: passwordRef.current?.value || '',
+  //   };
+
+  //   try {
+  //     let result;
+  //     if (type === 'signup') {
+  //       if (!postInput.name || !postInput.desc || !postInput.username || !postInput.password) {
+  //         toast.warning('Please fill all the fields!');
+  //         return;
+  //       }
+  //      result= await dispatch(signupUser(postInput)).unwrap();
+  //     } else {
+  //       if (!postInput.username || !postInput.password) {
+  //         toast.warning('Please enter email and password!');
+  //         return;
+  //       }
+  //      result=await dispatch(signinUser(postInput)).unwrap();
+  //     }
+  //     console.log(result);
+  //      if(result){
+  //       toast.success(`${type === 'signup' ? 'Signup' : 'Signin'} successful!`);
+  //       navigate('/');
+  //      }
+  //   } catch (err:any) {
+  //     toast.error(err?.message || 'Something went wrong');
+  //   }
+  // };
+
   const handleSubmit = async () => {
-    const postInput: SignupInput = {
+    const postInput = {
       name: nameRef.current?.value || '',
       desc: descRef.current?.value || '',
       username: usernameRef.current?.value || '',
       password: passwordRef.current?.value || '',
     };
-
+  
+  const signinInput = {
+      email: usernameRef.current?.value || '',
+      password: passwordRef.current?.value || '',
+  }
     try {
-      let result;
+      let result: boolean;
       if (type === 'signup') {
         if (!postInput.name || !postInput.desc || !postInput.username || !postInput.password) {
           toast.warning('Please fill all the fields!');
           return;
         }
-       result= await dispatch(signupUser(postInput)).unwrap();
+        result = await dispatch(signupUser(postInput as SignupInput)).unwrap();
       } else {
         if (!postInput.username || !postInput.password) {
           toast.warning('Please enter email and password!');
           return;
         }
-       result=await dispatch(signinUser(postInput)).unwrap();
+        result = await dispatch(signinUser(signinInput as SigninInput)).unwrap();
       }
-      console.log(result);
-       if(result){
+  
+      if (result) {
         toast.success(`${type === 'signup' ? 'Signup' : 'Signin'} successful!`);
         navigate('/');
-       }
-    } catch (err:any) {
-      toast.error(err?.message || 'Something went wrong');
+      }
+    } catch (err) {
+      if (err instanceof Error) {
+        toast.error(err.message || 'Something went wrong');
+      } else {
+        toast.error('An unexpected error occurred');
+      }
     }
   };
-
+  
   return (
     <div className="bg-slate-100 lg:bg-white h-screen flex justify-center flex-col">
       <div className="flex justify-center">
