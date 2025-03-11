@@ -28,10 +28,10 @@ export const SignUp=async (c:Context) => {
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);
 
     setCookie(c, 'token', token, {
-      httpOnly: true,
-      secure:true,
-      sameSite:"none",
-      maxAge: 7 * 24 * 60 * 60, // 1 week
+      httpOnly:true,
+      secure: true,                 // Send cookie only over HTTPS
+      sameSite: 'none',              // Allow cross-site cookies for top-level navigations
+      maxAge: 7 * 24 * 60 * 60,     // 1 week (in seconds)
     });
 
     c.status(201); // Created
@@ -70,11 +70,12 @@ export const Signin=async (c:Context) => {
     const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 
     setCookie(c, 'token', jwt, {
-      httpOnly: true,
-      secure:true,
-      sameSite:'none',
-      maxAge: 7 * 24 * 60 * 60,
-    });
+      httpOnly: true,               // Prevent access to cookies via JavaScript
+      secure: true,                 // Send cookie only over HTTPS
+      sameSite: 'none',              // Allow cross-site cookies for top-level navigations
+      maxAge: 7 * 24 * 60 * 60,     // 1 week (in seconds)                    // Cookie is available on all routes
+    })
+    
 
     c.status(200); // OK
     return c.json({ message: "Signin successful" });
