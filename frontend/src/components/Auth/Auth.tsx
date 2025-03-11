@@ -1,4 +1,4 @@
-import {  SigninInput, SignupInput } from '@sachin.78dev/blog-common';
+import {SignupInput } from '@sachin.78dev/blog-common';
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,7 @@ import LabelledInput from '../LabelledInput/LabelledInput';
 import Spinner from '../Spinner/Spinner';
 import { toast } from 'react-toastify';
 import { AppDispatch } from '../../store';
+import { signin } from '../../type/signin';
 function Auth({ type }: { type: 'signup' | 'signin' }) {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -59,7 +60,11 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
       username: usernameRef.current?.value || '',
       password: passwordRef.current?.value || '',
     };
-  
+   
+    const signinInput={
+      username:usernameRef.current?.value || '',
+      password:passwordRef.current?.value || ''
+    }
     try {
       let result: boolean;
       if (type === 'signup') {
@@ -73,7 +78,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
           toast.warning('Please enter email and password!');
           return;
         }
-        result = await dispatch(signinUser(postInput as SigninInput)).unwrap();
+        result = await dispatch(signinUser(signinInput as signin)).unwrap();
       }
   
       if (result) {
