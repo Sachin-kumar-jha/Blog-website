@@ -65,26 +65,24 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
       username:usernameRef.current?.value || '',
       password:passwordRef.current?.value || ''
     }
+    console.log(signinInput);
     try {
-      let result: boolean;
+      
       if (type === 'signup') {
         if (!postInput.name || !postInput.desc || !postInput.username || !postInput.password) {
           toast.warning('Please fill all the fields!');
           return;
         }
-        result = await dispatch(signupUser(postInput as SignupInput)).unwrap();
+         await dispatch(signupUser(postInput as SignupInput)).unwrap();
       } else {
         if (!postInput.username || !postInput.password) {
           toast.warning('Please enter email and password!');
           return;
         }
-        result = await dispatch(signinUser(signinInput as signin)).unwrap();
+         await dispatch(signinUser(signinInput as signin)).unwrap();
       }
-  
-      if (result) {
-        toast.success(`${type === 'signup' ? 'Signup' : 'Signin'} successful!`);
+      toast.success(`${type === 'signup' ? 'Signup' : 'Signin'} successful!`);
         navigate('/');
-      }
     } catch (err) {
       if (err instanceof Error) {
         toast.error(err.message || 'Something went wrong');

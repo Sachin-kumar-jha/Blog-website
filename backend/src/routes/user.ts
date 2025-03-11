@@ -98,7 +98,7 @@
 
 import { Hono } from "hono";
 import { getUser, logout, Signin, SignUp } from "../controllers/user";
-
+//import { authenticate } from "../middleware";
 
 export const userRouter = new Hono<{
   Bindings: {
@@ -115,4 +115,4 @@ userRouter.post('/signup', SignUp);
 userRouter.post('/signin',Signin);
 userRouter.post('/logout',logout);
 
-userRouter.get("/",getUser);
+userRouter.get("/admin",getUser);

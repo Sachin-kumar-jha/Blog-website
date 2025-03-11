@@ -12,6 +12,8 @@ app.use('/*', cors({
     "http://localhost:5173"
   ], // No trailing slash!
   credentials: true,
+  allowHeaders: ['Content-Type', 'Authorization'],
+  allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
 }));
 app.options('*', cors());
 

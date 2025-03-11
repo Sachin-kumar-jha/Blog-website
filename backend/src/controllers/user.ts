@@ -31,7 +31,8 @@ export const SignUp=async (c:Context) => {
       httpOnly:true,
       secure: true,                 // Send cookie only over HTTPS
       sameSite: 'none',              // Allow cross-site cookies for top-level navigations
-      maxAge: 7 * 24 * 60 * 60,     // 1 week (in seconds)
+      maxAge: 7 * 24 * 60 * 60,
+      path:'/'     // 1 week (in seconds)
     });
 
     c.status(201); // Created
@@ -73,10 +74,9 @@ export const Signin=async (c:Context) => {
       httpOnly: true,               // Prevent access to cookies via JavaScript
       secure: true,                 // Send cookie only over HTTPS
       sameSite: 'none',              // Allow cross-site cookies for top-level navigations
-      maxAge: 7 * 24 * 60 * 60,     // 1 week (in seconds)                    // Cookie is available on all routes
+      maxAge: 7 * 24 * 60 * 60,
+      path:'/'     // 1 week (in seconds)                    // Cookie is available on all routes
     })
-    
-
     c.status(200); // OK
     return c.json({ message: "Signin successful" });
   } catch (error) {

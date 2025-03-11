@@ -79,20 +79,20 @@ return{
 
 
 
-
-
-
-
 export const useUser=()=>{
     const[loading,setLoading]=useState(true);
     const [name,setName]=useState("");
     const[id,setId]=useState('');
     useEffect(()=>{
         try {
-            axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user`,{
-                withCredentials:true
+             axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/admin`,{
+                withCredentials:true,
+                headers: {
+                    'Content-Type': 'application/json', // Ensure it's set
+                },
               })
               .then(res=>{
+                  //console.log(res.data.user.name);
                   setName(res.data.user.name);
                   setLoading(false);
                   setId(res.data.user.id);
