@@ -17,10 +17,5 @@ export default defineConfig({
   optimizeDeps: {
     include: ['react', 'react-dom'],
   },
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
-  base: './', // Use '/' for React Router to work on Render
+  base: '/', // Use '/' for React Router to work on Render
 })
