@@ -1,4 +1,4 @@
-import {  SignupInput } from '@sachin.78dev/blog-common';
+import {  SigninInput, SignupInput } from '@sachin.78dev/blog-common';
 import { useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -73,7 +73,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
           toast.warning('Please enter email and password!');
           return;
         }
-        result = await dispatch(signinUser(postInput as SignupInput)).unwrap();
+        result = await dispatch(signinUser(postInput as SigninInput)).unwrap();
       }
   
       if (result) {
