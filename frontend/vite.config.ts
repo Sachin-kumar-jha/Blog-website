@@ -22,5 +22,5 @@ export default defineConfig({
       '@': '/src',
     },
   },
-  base: '/', // Use '/' for React Router to work on Render
+  base: './', // Use '/' for React Router to work on Render
 })
