@@ -7,12 +7,6 @@ import { cors } from 'hono/cors'
 const app = new Hono();
 app.use('/*', cors({
    origin:"https://blog-website-jv6j.onrender.com",
-   //"http://localhost:5173",
-   //[
-  //   "https://blog-website-psi-vert.vercel.app",
-  //   "https://blog-website-jv6j.onrender.com",
-  //   "http://localhost:5173"
-  // ], // No trailing slash!
   credentials: true,
   allowHeaders: ['Content-Type', 'Authorization'],
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],

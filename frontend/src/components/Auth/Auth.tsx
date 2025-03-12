@@ -73,24 +73,20 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
           return;
         }
          await dispatch(signupUser(postInput as SignupInput)).unwrap();
+
       } else {
         if (!postInput.username || !postInput.password) {
           toast.warning('Please enter email and password!');
           return;
         }
-         await dispatch(signinUser(signinInput as signin)).unwrap();
+        await dispatch(signinUser(signinInput as signin)).unwrap();
       }
       toast.success(`${type === 'signup' ? 'Signup' : 'Signin'} successful!`);
-        navigate('/');
+      navigate('/');
     } catch (err) {
-      if (err instanceof Error) {
-        toast.error(err.message || 'Something went wrong');
-      } else {
-        toast.error('An unexpected error occurred');
-      }
+      toast.error(`${err}`);
     }
-  };
-  
+  }
   return (
     <div className="bg-slate-100 lg:bg-white h-screen flex justify-center flex-col">
       <div className="flex justify-center">

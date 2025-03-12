@@ -21,6 +21,7 @@ const authSlice = createSlice({
       state.isAuthenticated = false;
       storage.removeItem('persist:root');
     },
+    
   },
   extraReducers: (builder) => {
     builder

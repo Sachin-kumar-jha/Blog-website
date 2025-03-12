@@ -3,7 +3,6 @@ import { withAccelerate } from '@prisma/extension-accelerate'
 import { Context, Next } from 'hono';
 import { verify} from "hono/jwt";
 import { getCookie} from "hono/cookie";
-
 // Middleware function
 export const prismaMiddleware = async (c: Context, next: Next) => {
     const prisma = new PrismaClient({
@@ -31,3 +30,14 @@ export const authenticate = async (c:Context, next:Next) => {
     return c.json({ message: "Invalid token" });
   }
 };
+
+export const isStrongPassword = (password: string): boolean => {
+  const minLength = password.length >= 8;
+  const hasLowercase = /[a-z]/.test(password);
+  const hasUppercase = /[A-Z]/.test(password);
+  const hasNumber = /\d/.test(password);
+  const hasSymbol = /[\W_]/.test(password);
+
+  return minLength && hasLowercase && hasUppercase && hasNumber && hasSymbol;
+};
+

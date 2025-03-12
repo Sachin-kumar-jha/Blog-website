@@ -2,10 +2,10 @@ import {Context} from "hono";
 import { signupInput ,signinInput} from "@sachin.78dev/blog-common";
 import { verify,sign } from "hono/jwt";
 import { getCookie, setCookie } from "hono/cookie";
-
-
+import { isStrongPassword } from "../middleware";
+import bcrypt from 'bcryptjs';
 export const SignUp=async (c:Context) => {
-  const prisma = c.get("prisma");
+  const prisma = await c.get("prisma");
   try {
     const body = await c.req.json();
     const { success } = signupInput.safeParse(body);
@@ -15,18 +15,31 @@ export const SignUp=async (c:Context) => {
         message: "Invalid input data"
       });
     }
+if(!isStrongPassword(body.password)){
+      c.status(409);
+      return  c.json({ message: "Please Enter Unique password" });
+    }  
+const userExist=await prisma.user.findUnique({
+      where:{
+        email:body.username,
+      }
+    });  
+if(userExist) {
+      c.status(409); // Conflict
+      return c.json({ message: "User already exists" });
+    }
 
+const hashPassword=await bcrypt.hash(body.password, 10);
+console.log(hashPassword);
     const user = await prisma.user.create({
       data: {
-        email: body.username,
-        password: body.password,
+        email:body.username,
+        password:hashPassword,
         name: body.name,
         desc: body.desc,
       },
     });
-
     const token = await sign({ id: user.id }, c.env.JWT_SECRET);
-
     setCookie(c, 'token', token, {
       httpOnly:true,
       secure: true,                 // Send cookie only over HTTPS
@@ -39,7 +52,7 @@ export const SignUp=async (c:Context) => {
     return c.json({ message: "Signup successful" });
   } catch (error) {
     c.status(500); // Internal Server Error
-    return c.json({ message: "Something went wrong" });
+    return c.json({ message: error });
   }
 }
 
@@ -59,15 +72,19 @@ export const Signin=async (c:Context) => {
     const user = await prisma.user.findUnique({
       where: {
         email: body.username,
-        password: body.password
       },
     });
-
     if (!user) {
       c.status(404); // Not Found
       return c.json({ message: "User not found" });
     }
-
+    console.log(user);
+    const isPasswordValid = await bcrypt.compare(body.password, user.password);
+    if (!isPasswordValid){
+      c.status(404);
+      return c.json({ message: 'Invalid Credential!' });
+    }
+  
     const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 
     setCookie(c, 'token', jwt, {
@@ -78,7 +95,7 @@ export const Signin=async (c:Context) => {
       path:'/'     // 1 week (in seconds)                    // Cookie is available on all routes
     })
     c.status(200); // OK
-    return c.json({ message: "Signin successful" });
+    return c.json({ message: "Signin successful"});
   } catch (error) {
     c.status(500); // Internal Server Error
     return c.json({ message: "Something went wrong" });
@@ -86,10 +103,12 @@ export const Signin=async (c:Context) => {
 }
 
 export const logout=async (c:Context) => {
- setCookie(c, 'token','');
+  setCookie(c, 'token','');
   c.status(200); // OK
   return c.json({ message: 'Logged out successfully' });
 }
+
+
 export const getUser=async (c:Context) => {
     const prisma = c.get("prisma");
     const token = getCookie(c, 'token');
@@ -106,7 +125,7 @@ export const getUser=async (c:Context) => {
         select: { name: true, desc: true },
       });
   
-      if (!user1) {
+      if (!user1){
         c.status(404); // Not Found
         return c.json({ message: "User not found" });
       }
@@ -118,3 +137,14 @@ export const getUser=async (c:Context) => {
       return c.json({ message: "Invalid token" });
     }
   }
+
+
+export const deleteAlluser=async(c:Context)=>{
+  const prisma=await c.get("prisma")
+  //const body = await c.req.json();
+   const data= await prisma.user.deleteMany({});
+  c.status(200);
+  return c.json({
+    data
+  })
+}
