@@ -30,6 +30,9 @@ export const useBlogs=()=>{
     dispatch(setLoading(true));
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk`,{
      withCredentials:true,
+     headers: {
+        'Content-Type': 'Authorization', 
+    },
     })
     .then(res => {
      dispatch(setBlogs(res.data));
@@ -88,6 +91,9 @@ export const useUser=()=>{
             setLoading(true);
              axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/admin`,{
                 withCredentials:true,
+                headers: {
+                    'Content-Type': 'Authorization', 
+                },
               })
               .then(res=>{
                   //console.log(res.data.user.name);

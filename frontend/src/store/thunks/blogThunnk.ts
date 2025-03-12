@@ -10,8 +10,11 @@ export const fetchBlogById = createAsyncThunk(
     try {
       const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`,
         {
-        withCredentials:true
-      }
+        withCredentials:true,
+        headers: {
+          'Content-Type': 'Authorization', 
+      },
+        }
       );
       const data = await response.data;
       dispatch(setCurrentBlog(data.blog));
@@ -32,7 +35,10 @@ export const deleteBlog = createAsyncThunk(
       const response = await axios.delete(
         `${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/${id}`,
         {
-          withCredentials:true
+          withCredentials:true,
+          headers: {
+            'Content-Type': 'Authorization', 
+        },
         }
       );
       return { id, message: response.data.message };

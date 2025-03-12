@@ -44,6 +44,9 @@ export const signinUser = createAsyncThunk(
     try {
        await axios.post(`${API_URL}/signin`,data,
         {withCredentials: true,
+          headers: {
+            'Content-Type': 'Authorization', 
+        },
         });
       return true;
     } catch (err) {
