@@ -80,11 +80,12 @@ return{
 
 
 export const useUser=()=>{
-    const[loading,setLoading]=useState(true);
+    const[loading,setLoading]=useState(false);
     const [name,setName]=useState("");
     const[id,setId]=useState('');
     useEffect(()=>{
         try {
+            setLoading(true);
              axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/admin`,{
                 withCredentials:true,
                 headers: {
@@ -94,8 +95,8 @@ export const useUser=()=>{
               .then(res=>{
                   //console.log(res.data.user.name);
                   setName(res.data.user.name);
-                  setLoading(false);
                   setId(res.data.user.id);
+                  setLoading(false);
               
               });
             
@@ -103,7 +104,7 @@ export const useUser=()=>{
             toast.warning("Check your connection!");
         }
       
-    },[]);
+    },[id]);
     return{
         name,id,loading
     }

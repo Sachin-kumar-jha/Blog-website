@@ -43,7 +43,7 @@ console.log(hashPassword);
     setCookie(c, 'token', token, {
       httpOnly:true,
       secure: true,                 // Send cookie only over HTTPS
-      sameSite: 'None',              // Allow cross-site cookies for top-level navigations
+      sameSite: 'Lax',              // Allow cross-site cookies for top-level navigations
       maxAge: 7 * 24 * 60 * 60,
       path:'/'     // 1 week (in seconds)
     });
@@ -90,7 +90,7 @@ export const Signin=async (c:Context) => {
     setCookie(c, 'token', jwt, {
       httpOnly: true,               // Prevent access to cookies via JavaScript
       secure: true,                 // Send cookie only over HTTPS
-      sameSite:"None",              // Allow cross-site cookies for top-level navigations
+      sameSite:"Lax",              // Allow cross-site cookies for top-level navigations
       maxAge: 7 * 24 * 60 * 60,
       path:'/'     // 1 week (in seconds)                    // Cookie is available on all routes
     })
@@ -120,16 +120,15 @@ export const getUser=async (c:Context) => {
   
     try {
       const user = await verify(token, c.env.JWT_SECRET);
+      
       const user1 = await prisma.user.findUnique({
         where: { id: user.id },
         select: { name: true, desc: true },
-      });
-  
+      });  
       if (!user1){
         c.status(404); // Not Found
         return c.json({ message: "User not found" });
       }
-  
       c.status(200); // OK
       return c.json({ user: user1 });
     } catch (error) {

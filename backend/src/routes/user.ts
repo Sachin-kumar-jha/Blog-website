@@ -115,5 +115,5 @@ userRouter.post('/signup', SignUp);
 userRouter.post('/signin',Signin);
 userRouter.post('/logout',logout);
 
-userRouter.post("/delete",deleteAlluser);
+//userRouter.post("/delete",deleteAlluser);
 userRouter.get("/admin",getUser);
