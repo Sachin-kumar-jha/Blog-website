@@ -109,7 +109,7 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
             )}
 
             <LabelledInput ref={usernameRef} label="Username" type="email" placeholder="Enter your email" onChange={() => {}} />
-            <LabelledInput ref={passwordRef} label="Password" placeholder="Password" type="password" onChange={() => {}} />
+            <LabelledInput ref={passwordRef} label="Password" placeholder="Password (e.g., Abc123@!)" type="password" onChange={() => {}} />
 
             <button
               onClick={handleSubmit}

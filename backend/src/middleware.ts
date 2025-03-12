@@ -15,7 +15,8 @@ export const prismaMiddleware = async (c: Context, next: Next) => {
 
 
 export const authenticate = async (c:Context, next:Next) => {
-  const token =getCookie(c, 'token'); // Correct way to get cookies
+  const token =getCookie(c, 'token');
+  console.log(token); // Correct way to get cookies
   if (!token) {
     c.status(401); // Unauthorized
     return c.json({ message: "Unauthorized" });

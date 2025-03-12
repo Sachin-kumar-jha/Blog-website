@@ -43,7 +43,7 @@ console.log(hashPassword);
     setCookie(c, 'token', token, {
       httpOnly:true,
       secure: true,                 // Send cookie only over HTTPS
-      sameSite: 'Lax',              // Allow cross-site cookies for top-level navigations
+      sameSite: 'None',              // Allow cross-site cookies for top-level navigations
       maxAge: 7 * 24 * 60 * 60,
       path:'/'     // 1 week (in seconds)
     });
@@ -87,10 +87,10 @@ export const Signin=async (c:Context) => {
   
     const jwt = await sign({ id: user.id }, c.env.JWT_SECRET);
 
-    setCookie(c, 'token', jwt, {
+  setCookie(c, 'token', jwt, {
       httpOnly: true,               // Prevent access to cookies via JavaScript
       secure: true,                 // Send cookie only over HTTPS
-      sameSite:"Lax",              // Allow cross-site cookies for top-level navigations
+      sameSite:"None",              // Allow cross-site cookies for top-level navigations
       maxAge: 7 * 24 * 60 * 60,
       path:'/'     // 1 week (in seconds)                    // Cookie is available on all routes
     })
