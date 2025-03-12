@@ -31,7 +31,7 @@ export const useBlogs=()=>{
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk`,{
      withCredentials:true,
      headers: {
-        'Content-Type': 'application/json', 
+        "Content-Type": 'application/json', 
     },
     })
     .then(res => {
@@ -97,6 +97,8 @@ export const useUser=()=>{
               })
               .then(res=>{
                   //console.log(res.data.user.name);
+                  console.log('Response headers:', res.headers);
+                  console.log('Response data:', res.data);
                   setName(res.data.user.name);
                   setId(res.data.user.id);
                   setLoading(false);
