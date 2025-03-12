@@ -30,7 +30,7 @@ export const SignUp=async (c:Context) => {
     setCookie(c, 'token', token, {
       httpOnly:true,
       secure: true,                 // Send cookie only over HTTPS
-      sameSite: 'none',              // Allow cross-site cookies for top-level navigations
+      sameSite: 'None',              // Allow cross-site cookies for top-level navigations
       maxAge: 7 * 24 * 60 * 60,
       path:'/'     // 1 week (in seconds)
     });
@@ -73,7 +73,7 @@ export const Signin=async (c:Context) => {
     setCookie(c, 'token', jwt, {
       httpOnly: true,               // Prevent access to cookies via JavaScript
       secure: true,                 // Send cookie only over HTTPS
-      sameSite: 'none',              // Allow cross-site cookies for top-level navigations
+      sameSite:"None",              // Allow cross-site cookies for top-level navigations
       maxAge: 7 * 24 * 60 * 60,
       path:'/'     // 1 week (in seconds)                    // Cookie is available on all routes
     })

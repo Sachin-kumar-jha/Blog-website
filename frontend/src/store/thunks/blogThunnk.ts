@@ -14,7 +14,6 @@ export const fetchBlogById = createAsyncThunk(
       }
       );
       const data = await response.data;
-      //console.log(data.blog);
       dispatch(setCurrentBlog(data.blog));
       dispatch(setLoading(false));
     } catch (error) {

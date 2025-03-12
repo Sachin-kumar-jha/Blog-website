@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice} from '@reduxjs/toolkit';
 import { signupUser, signinUser } from '../thunks/authThunk';
 import storage from 'redux-persist/lib/storage';
 interface AuthState {

@@ -1,33 +1,39 @@
-
+import { useState } from 'react';
 import Avatar from '../Avatar/Avatar'
 import PublishButton from '../Publish/PublishButton'
 import { Link } from 'react-router-dom'
 import { useNavigate } from 'react-router-dom';
 import {toast} from "react-toastify";
 import { useUser } from '../../hooks'
-import { useDispatch } from 'react-redux';
-import { logout } from '../../store/slice/authSlice';
-import axios from 'axios';
+import { useDispatch} from 'react-redux';
+import { logout} from '../../store/slice/authSlice';
+import axios, { AxiosError } from 'axios';
+
+import {AppDispatch } from '../../store';
+import Spinner from '../Spinner/Spinner';
 
 
 function Appbar(){
 const {loading,name}=useUser();
-const dispatch =useDispatch();
-  const navigate =useNavigate();
+const [loader,setLoader]=useState(false);
+const dispatch =useDispatch<AppDispatch>();
+const navigate =useNavigate();
 
 const handleLogout = async () => {
   try {
     // Clear the backend cookie
+    setLoader(true);
     await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/logout`, {}, {
       withCredentials: true,
     });
-
     // Update Redux state
     dispatch(logout());
+    setLoader(false);
     toast.success('Logged out successfully!');
     navigate('/signin');
-  } catch (error) {
-    console.error('Logout failed:', error);
+  } catch (err) {
+    const error = err as AxiosError<{ message: string }>;
+    console.error('Logout failed:', error.message);
     toast.error('Failed to log out. Please try again.');
   }
 };
@@ -49,7 +55,7 @@ const handleLogout = async () => {
            </Link>
             </div>
             <div className='flex flex-col justify-center'>
-            <button className='mt-1' onClick={handleLogout}><img src='./logout.png'  className='w-6 h-6 object-cover'/></button>
+            <button className='mt-1' onClick={handleLogout}>{loader ?<Spinner/>:<img src='./logout.png'  className='w-6 h-6 object-cover'/>}</button>
             </div>
           
       </div>

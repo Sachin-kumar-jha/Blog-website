@@ -65,7 +65,6 @@ function Auth({ type }: { type: 'signup' | 'signin' }) {
       username:usernameRef.current?.value || '',
       password:passwordRef.current?.value || ''
     }
-    console.log(signinInput);
     try {
       
       if (type === 'signup') {

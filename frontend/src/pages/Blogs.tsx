@@ -3,7 +3,6 @@ import BlogCardSkeleton from '../components/Skeleton/BlogCardSkelton';
 import { useBlogs } from '../hooks';
 function Blog(){
 const{loading,blogs}=useBlogs();
-  //console.log(blogs);
   return <div>
       <div className="flex justify-center">
     <div>

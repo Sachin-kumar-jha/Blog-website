@@ -5,7 +5,6 @@ import { SignupInput} from '@sachin.78dev/blog-common';
 import { signin } from '../../type/signin';
 
 const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/v1/user`;
-//console.log(API_URL);
 
 export const signupUser = createAsyncThunk(
   'auth/signupUser',
@@ -23,15 +22,13 @@ export const signupUser = createAsyncThunk(
 export const signinUser = createAsyncThunk(
   'auth/signinUser',
   async (data:signin, { rejectWithValue }) => {
-    //console.log(data);
     try {
-     const response= await axios.post(`${API_URL}/signin`,data,
+       await axios.post(`${API_URL}/signin`,data,
         {withCredentials: true,
           headers: {
             'Content-Type': 'application/json', // Ensure it's set
           },
         });
-        console.log(response);
       return true;
 
     } catch (err) {

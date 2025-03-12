@@ -15,7 +15,7 @@ function Blog() {
       dispatch(fetchBlogById(id));
     }
   }, [id, dispatch]);
- //console.log(currentBlog);
+
   return <div>
     {loading  ? <BlogCardSkeleton className="flex justify-center mt-24"/>:
       currentBlog && <FullBLog blog={currentBlog}/>

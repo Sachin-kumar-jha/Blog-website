@@ -88,7 +88,7 @@ export const useUser=()=>{
              axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/admin`,{
                 withCredentials:true,
                 headers: {
-                    'Content-Type': 'application/json', // Ensure it's set
+                    'Content-Type': 'application/json', 
                 },
               })
               .then(res=>{
