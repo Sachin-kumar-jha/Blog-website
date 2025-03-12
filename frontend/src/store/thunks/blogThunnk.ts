@@ -37,7 +37,7 @@ export const deleteBlog = createAsyncThunk(
         {
           withCredentials:true,
           headers: {
-            'Content-Type': 'Authorization', 
+            'Content-Type': 'application/json', 
         },
         }
       );

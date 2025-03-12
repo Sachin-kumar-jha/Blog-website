@@ -25,6 +25,9 @@ const handleLogout = async () => {
     setLoader(true);
     await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/logout`, {}, {
       withCredentials: true,
+      headers: {
+        'Content-Type': 'application/json', 
+    }
     });
     // Update Redux state
     dispatch(logout());

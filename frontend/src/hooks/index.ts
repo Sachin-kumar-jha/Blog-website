@@ -31,7 +31,7 @@ export const useBlogs=()=>{
     axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/blog/bulk`,{
      withCredentials:true,
      headers: {
-        'Content-Type': 'Authorization', 
+        'Content-Type': 'application/json', 
     },
     })
     .then(res => {
@@ -92,7 +92,7 @@ export const useUser=()=>{
              axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/user/admin`,{
                 withCredentials:true,
                 headers: {
-                    'Content-Type': 'Authorization', 
+                    'Content-Type': 'application/json', 
                 },
               })
               .then(res=>{
