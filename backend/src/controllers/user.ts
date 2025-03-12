@@ -109,41 +109,46 @@ export const logout=async (c:Context) => {
 }
 
 
-export const getUser=async (c:Context) => {
-    const prisma = c.get("prisma");
+export const getUser = async (c: Context) => {
+  try {
+    const prisma = await c.get('prisma');
     const token = getCookie(c, 'token');
-  
+
     if (!token) {
       c.status(401); // Unauthorized
-      return c.json({ message: "Unauthorized" });
+      return c.json({ message: 'Unauthorized: No token provided' });
     }
-  
-    try {
-      const user = await verify(token, c.env.JWT_SECRET);
-      
-      const user1 = await prisma.user.findUnique({
-        where: { id: user.id },
-        select: { name: true, desc: true },
-      });  
-      if (!user1){
-        c.status(404); // Not Found
-        return c.json({ message: "User not found" });
-      }
-      c.status(200); // OK
-      return c.json({ user: user1 });
-    } catch (error) {
+
+    const user = await verify(token, c.env.JWT_SECRET);
+    if (!user || typeof user !== 'object' || !user.id) {
       c.status(403); // Forbidden
-      return c.json({ message: "Invalid token" });
+      return c.json({ message: 'Invalid or malformed token' });
     }
+
+    const user1 = await prisma.user.findUnique({
+      where: { id: user.id },
+      select: { name: true, desc: true },
+    });
+
+    if (!user1) {
+      c.status(404); // Not Found
+      return c.json({ message: 'User not found' });
+    }
+
+    return c.json({ user: user1 });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    c.status(500); // Internal Server Error
+    return c.json({ message: 'An error occurred' });
   }
+};
 
-
-export const deleteAlluser=async(c:Context)=>{
-  const prisma=await c.get("prisma")
-  //const body = await c.req.json();
-   const data= await prisma.user.deleteMany({});
-  c.status(200);
-  return c.json({
-    data
-  })
-}
+// export const deleteAlluser=async(c:Context)=>{
+//   const prisma=await c.get("prisma")
+//   //const body = await c.req.json();
+//    const data= await prisma.user.deleteMany({});
+//   c.status(200);
+//   return c.json({
+//     data
+//   })
+// }

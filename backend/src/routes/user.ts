@@ -97,7 +97,7 @@
 // });
 
 import { Hono } from "hono";
-import { deleteAlluser, getUser, logout, Signin, SignUp } from "../controllers/user";
+import {getUser, logout, Signin, SignUp } from "../controllers/user";
 //import { authenticate } from "../middleware";
 
 export const userRouter = new Hono<{
