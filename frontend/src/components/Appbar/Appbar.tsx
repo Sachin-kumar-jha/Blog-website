@@ -43,7 +43,12 @@ const handleLogout = async () => {
   return (
     <div className=' border-b flex flex-row items-center justify-between px-8 py-1'>
       <Link to={"/"}>
-        <div className='flex text-xl text-extrabold flex-col justify-center  curson-pointer'>Medium</div>
+  
+  
+        <div className='flex text-xl text-extrabold flex-col justify-center  curson-pointer'>
+          <h1 className="text-2xl sm:text-2xl font-extrabold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-[#007BFF] to-[#6F42C1]">
+    BlogHaven
+  </h1></div>
         </Link>
            <div className='flex justify-center gap-5'>
             <div className='flex flex-col justify-center mt-2'>
